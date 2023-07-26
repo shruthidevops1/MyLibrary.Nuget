@@ -26,16 +26,15 @@ stages:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
 
-    - task: DotNetCoreCLI@2
+    - task: NuGetCommand@2
       inputs:
         command: 'pack'
         packagesToPack: '**/*.csproj'
         versioningScheme: 'off'
     
-    - task: DotNetCoreCLI@2
+    - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '4cc94497-d4fc-4a1c-a0cb-6a793cd32ab9/3349e8f0-9397-4fee-b664-254d6f443c29'
-  
